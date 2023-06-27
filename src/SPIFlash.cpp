@@ -630,9 +630,11 @@ bool SPIFlash::writeByteArray(uint32_t _addr, uint8_t *data_buffer, size_t buffe
     _transferAddress();
     for (uint16_t j = 0; j < bufferSize; j++) {
       if (_nextByte(READ) != data_buffer[j]) {
+        CHIP_DESELECT
         return false;
       }
     }
+    CHIP_DESELECT
     _endSPI();
     #ifdef RUNDIAGNOSTIC
       _spifuncruntime = micros() - _spifuncruntime;
